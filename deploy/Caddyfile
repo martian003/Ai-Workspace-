@@ -1,0 +1,15 @@
+# Replace domains, install Caddy on the host, and configure DNS/TLS.
+api.example.com {
+    request_body {
+        max_size 12MB
+    }
+    reverse_proxy 127.0.0.1:8000 {
+        header_up X-Forwarded-Proto {scheme}
+        transport http {
+            response_header_timeout 120s
+        }
+    }
+}
+app.example.com {
+    reverse_proxy 127.0.0.1:3000
+}
